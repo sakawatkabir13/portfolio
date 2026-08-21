@@ -1,0 +1,42 @@
+---
+title: "DNS Spoofing in a Lab: What Scapy Teaches You About Trust"
+date: "2026-08-12"
+tags: ["scapy", "networking", "lab", "security"]
+excerpt: "Notes from building a custom DNS spoofer in an isolated lab. What I learned about why DNS is the protocol we love to break."
+category: "writeup"
+---
+
+I built a fully custom DNS spoofer with Scapy as a learning project. The repo is at
+[`full-custom-dns-spoofer-with-scapy`](https://github.com/sakawatkabir13/full-custom-dns-spoofer-with-scapy).
+This post is a writeup of what the lab actually taught me about networking, not a tutorial.
+
+## The setup
+
+Two VMs on an isolated host-only network. One runs the "router" script (ARP spoof + DNS interceptor),
+the other is a Linux client that I treat as my victim for the duration of the exercise. I never run
+this on networks I do not own.
+
+## What I expected vs. what I learned
+
+I expected the hardest part to be crafting the DNS response. It was not. The hardest part was getting
+the layer-2 mitm right: maintaining the ARP table state, avoiding the victim's kernel from clobbering
+the spoof, and timing the responses so the legitimate reply from the real upstream DNS did not arrive
+first and cause a race.
+
+I learned that **DNS is fast, not safe**. The protocol was designed when networks were small and
+trust was implicit. Almost every security control we have around it today (DNSSEC, DoH, DoT, validated
+resolvers) is layered on top of that assumption.
+
+## Three takeaways
+
+1. **Trust is the enemy.** Anything on the wire that is not authenticated should be treated as
+   hostile by default. The lab made this visceral.
+2. **Layer-2 is just as interesting as layer-7.** Most CTF web work focuses on HTTP. ARP and DNS
+   attacks are quieter and more fun to reason about.
+3. **Defender mindset comes from attacker reps.** I now look at every network I join with a slightly
+   different eye.
+
+## What I changed in my own setup
+
+After running the lab a few times, I hardened my home network: encrypted DNS at the resolver, static
+ARP entries on the devices I actually care about, and a habit of checking `arp -a` on sketchy Wi-Fi.

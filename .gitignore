@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# production build output
+build/
+dist/
+*.tsbuildinfo
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.puku
+
+# testing
+coverage/
+
+# editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# temporary folders
+outputs/
+work/
+
+# local-only internal documentation
+LOCAL_PORTFOLIO_GUIDE.md
+docs/superpowers/
