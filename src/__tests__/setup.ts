@@ -1,4 +1,9 @@
-import { vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
+
+afterEach(() => {
+  cleanup();
+});
 
 class TestIntersectionObserver implements IntersectionObserver {
   readonly root: Element | Document | null = null;

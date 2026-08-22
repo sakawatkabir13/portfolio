@@ -163,6 +163,7 @@ export function MatrixRain({ className = "" }: MatrixRainProps) {
     <canvas
       ref={canvasRef}
       aria-hidden
+      data-background-effect="matrix"
       className={`pointer-events-none fixed inset-0 h-full w-full -z-10 ${className}`}
     />
   );

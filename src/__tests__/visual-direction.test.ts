@@ -28,4 +28,16 @@ describe("visual direction", () => {
     expect(source).not.toContain("corner-frame");
     expect(source).not.toContain("grid-mask");
   });
+
+  it("uses Network telemetry as the default background with accessible motion handling", () => {
+    const layout = read("src/app/layout.tsx");
+    const background = read("src/components/background/NetworkTelemetry.tsx");
+    const modes = read("src/components/background/background-mode.ts");
+
+    expect(layout).toContain("<BackgroundEffects />");
+    expect(modes).toContain('["network", "matrix", "off"]');
+    expect(background).toContain("prefers-reduced-motion: reduce");
+    expect(background).toContain('data-background-effect="network"');
+    expect(background).not.toContain("scanline");
+  });
 });

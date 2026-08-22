@@ -60,5 +60,6 @@ describe("home page", () => {
     expect(screen.getAllByRole("heading", { name: /three challenges hidden/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("navigation", { name: /primary navigation/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("button", { name: /open navigation menu/i }).length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: /background mode: network/i })).toBeTruthy();
   });
 });

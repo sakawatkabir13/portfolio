@@ -1,8 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Sparkles, X } from "lucide-react";
+import { EyeOff, Menu, Network, Sparkles, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import {
+  BACKGROUND_MODE_EVENT,
+  BACKGROUND_MODE_STORAGE_KEY,
+  LEGACY_MATRIX_STORAGE_KEY,
+  nextBackgroundMode,
+  readBackgroundMode,
+  type BackgroundMode
+} from "@/components/background/background-mode";
 
 export type NavItem = {
   href: string;
@@ -12,27 +20,38 @@ export type NavItem = {
 
 type SiteNavProps = {
   items: NavItem[];
-  showMatrixToggle?: boolean;
+  showBackgroundToggle?: boolean;
 };
 
-const MATRIX_STORAGE_KEY = "matrix-rain-enabled";
+const MODE_LABELS: Record<BackgroundMode, string> = {
+  network: "Network",
+  matrix: "Matrix",
+  off: "Off"
+};
 
-export function SiteNav({ items, showMatrixToggle = true }: SiteNavProps) {
+export function SiteNav({ items, showBackgroundToggle = true }: SiteNavProps) {
   const [open, setOpen] = useState(false);
-  const [matrixEnabled, setMatrixEnabled] = useState(true);
+  const [backgroundMode, setBackgroundMode] = useState<BackgroundMode>("network");
 
   useEffect(() => {
-    setMatrixEnabled(window.localStorage.getItem(MATRIX_STORAGE_KEY) !== "false");
+    const storedMode = readBackgroundMode(window.localStorage);
+    setBackgroundMode(storedMode);
+    window.localStorage.setItem(BACKGROUND_MODE_STORAGE_KEY, storedMode);
+    window.localStorage.removeItem(LEGACY_MATRIX_STORAGE_KEY);
   }, []);
 
-  function toggleMatrix() {
-    const enabled = !matrixEnabled;
-    setMatrixEnabled(enabled);
-    window.localStorage.setItem(MATRIX_STORAGE_KEY, String(enabled));
+  function cycleBackgroundMode() {
+    const mode = nextBackgroundMode(backgroundMode);
+    setBackgroundMode(mode);
+    window.localStorage.setItem(BACKGROUND_MODE_STORAGE_KEY, mode);
     window.dispatchEvent(
-      new CustomEvent("matrix-rain-toggle", { detail: { enabled } })
+      new CustomEvent(BACKGROUND_MODE_EVENT, { detail: { mode } })
     );
   }
+
+  const nextMode = nextBackgroundMode(backgroundMode);
+  const BackgroundIcon =
+    backgroundMode === "network" ? Network : backgroundMode === "matrix" ? Sparkles : EyeOff;
 
   return (
     <>
@@ -70,20 +89,23 @@ export function SiteNav({ items, showMatrixToggle = true }: SiteNavProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            {showMatrixToggle ? (
+            {showBackgroundToggle ? (
               <button
                 type="button"
-                onClick={toggleMatrix}
-                aria-pressed={matrixEnabled}
-                aria-label={`${matrixEnabled ? "Disable" : "Enable"} MatrixRain background`}
+                onClick={cycleBackgroundMode}
+                aria-label={`Background mode: ${MODE_LABELS[backgroundMode]}. Switch to ${MODE_LABELS[nextMode]}`}
+                title={`Background: ${MODE_LABELS[backgroundMode]} · Click for ${MODE_LABELS[nextMode]}`}
+                data-background-mode={backgroundMode}
                 className={`inline-flex min-h-10 items-center gap-2 border px-3 font-mono text-xs uppercase tracking-wider transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint ${
-                  matrixEnabled
+                  backgroundMode === "network"
                     ? "border-mint/40 bg-mint/10 text-mint"
-                    : "border-line bg-surface-soft text-zinc-400"
+                    : backgroundMode === "matrix"
+                      ? "border-rose/40 bg-rose/10 text-rose"
+                      : "border-line bg-surface-soft text-zinc-400"
                 }`}
               >
-                <Sparkles className="h-4 w-4" aria-hidden />
-                <span className="whitespace-nowrap">Rain {matrixEnabled ? "on" : "off"}</span>
+                <BackgroundIcon className="h-4 w-4" aria-hidden />
+                <span className="whitespace-nowrap">BG {MODE_LABELS[backgroundMode]}</span>
               </button>
             ) : null}
             <button

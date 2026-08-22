@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { MatrixRain } from "@/components/background/MatrixRain";
+import { BackgroundEffects } from "@/components/background/BackgroundEffects";
 
 const SITE_URL = "https://basilisk13.sakawatkabir.me";
 
@@ -93,7 +93,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <MatrixRain className="opacity-[0.35]" />
+        <BackgroundEffects />
         <div className="relative z-10">{children}</div>
       </body>
     </html>

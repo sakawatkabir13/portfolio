@@ -24,7 +24,7 @@ export default function BlogIndex() {
 
   return (
     <>
-      <SiteNav items={BLOG_NAV_ITEMS} showMatrixToggle={false} />
+      <SiteNav items={BLOG_NAV_ITEMS} showBackgroundToggle={false} />
       <main id="main-content" tabIndex={-1} className="min-h-screen bg-canvas text-zinc-100 outline-none">
         <div className="relative">
         <section className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:py-20">

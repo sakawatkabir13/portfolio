@@ -13,7 +13,7 @@ CUET.
 - TryHackMe, Hack The Box, Codeforces, and live GitHub activity
 - Interactive client-side security and cryptography tools
 - MDX-based technical write-ups with an RSS feed
-- Responsive interface with an optional Matrix rain background
+- Responsive interface with Network telemetry, optional Matrix rain, and reduced-motion support
 
 ## Tech Stack
 
