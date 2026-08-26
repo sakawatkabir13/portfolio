@@ -29,8 +29,9 @@ export function SiteFooter() {
               {portfolio.handle}
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-400">
-              Personal site and security lab notebook of {portfolio.name}. Built in public,
-              shipped iteratively, and continuously hardened.
+              Portfolio of {portfolio.name}, a security-focused backend and systems
+              developer. Showcasing projects, technical writing, and hands-on security
+              work.
             </p>
             <p className="mt-3 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-ember">
               <Sparkles className="h-3.5 w-3.5" />
@@ -131,22 +132,6 @@ export function SiteFooter() {
           </p>
           <div className="flex flex-wrap items-center gap-2">
             <CtfBadge />
-            <a
-              href={portfolio.links.resume}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 border border-line bg-canvas/60 px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 transition hover:border-mint/60 hover:text-mint"
-            >
-              <FileText className="h-3.5 w-3.5" />
-              résumé
-            </a>
-            <Link
-              href="/rss.xml"
-              className="inline-flex items-center gap-1.5 border border-line bg-canvas/60 px-3 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-zinc-300 transition hover:border-mint/60 hover:text-mint"
-            >
-              <Rss className="h-3.5 w-3.5" />
-              rss
-            </Link>
           </div>
         </div>
       </div>

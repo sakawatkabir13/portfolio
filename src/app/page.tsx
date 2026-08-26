@@ -88,11 +88,11 @@ export default async function Home() {
       <main id="main-content" tabIndex={-1} className="relative min-h-screen text-zinc-100 outline-none">
       <section
         id="top"
-        className="relative isolate mx-auto grid min-h-[calc(100vh-73px)] w-full max-w-6xl items-center gap-8 overflow-hidden px-5 py-14 sm:px-8 lg:grid-cols-[330px_minmax(0,1fr)] lg:py-20"
+        className="relative isolate mx-auto grid min-h-[calc(100vh-73px)] w-full max-w-6xl items-center gap-8 overflow-hidden px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-6 lg:py-10 xl:grid-cols-[300px_minmax(0,1fr)]"
       >
         <Reveal className="order-2 mx-auto w-full max-w-sm lg:order-1 lg:max-w-none">
-          <aside className="border border-line bg-surface/90 p-5 backdrop-blur shadow-rose">
-            <div className="border-b border-line pb-5">
+          <aside className="border border-line bg-surface/90 p-4 backdrop-blur shadow-rose xl:p-5">
+            <div className="border-b border-line pb-4">
               <Image
                 src={portfolio.avatarUrl}
                 alt={`${portfolio.name} avatar`}
@@ -103,13 +103,13 @@ export default async function Home() {
                 className="aspect-square w-full border border-rose/40 object-cover"
               />
             </div>
-            <div className="pt-5">
+            <div className="pt-4">
               <p className="font-mono text-xs uppercase tracking-[0.28em] text-ember">
                 alias
               </p>
-              <p className="mt-2 text-3xl font-black text-ink">{portfolio.handle}</p>
+              <p className="mt-1.5 text-2xl font-black text-ink">{portfolio.handle}</p>
             </div>
-            <div className="mt-6 space-y-3 border-t border-line pt-5 text-sm text-zinc-400">
+            <div className="mt-4 space-y-2.5 border-t border-line pt-4 text-sm text-zinc-400">
               <span className="flex items-center gap-2">
                 <GraduationCap className="h-4 w-4 text-rose" />
                 {portfolio.education.studentStatus}
@@ -123,25 +123,25 @@ export default async function Home() {
         </Reveal>
 
         <Reveal className="order-1 lg:order-2" delay={0.1}>
-          <div className="rail-card border border-line bg-surface-soft/90 p-7 backdrop-blur sm:p-10 lg:p-12">
+          <div className="rail-card border border-line bg-surface-soft/90 p-6 backdrop-blur sm:p-8">
             <div className="inline-flex items-center gap-2 border border-mint/40 bg-mint/10 px-3 py-2 font-mono text-xs uppercase tracking-[0.22em] text-mint">
               <Sparkles className="h-4 w-4" />
               {portfolio.liveStatus.line2}
             </div>
-            <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight tracking-normal text-ink sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[1.02] tracking-normal text-ink sm:text-6xl lg:whitespace-nowrap lg:text-[clamp(2.625rem,4.4vw,3.5rem)] lg:leading-none">
               {portfolio.name}
             </h1>
-            <p className="mt-5 max-w-3xl text-lg font-semibold text-rose sm:text-xl">
+            <p className="mt-4 max-w-3xl text-lg font-semibold text-rose sm:text-xl">
               {portfolio.title}
             </p>
-            <p className="mt-6 max-w-3xl text-base leading-8 text-zinc-300 sm:text-lg">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-300 sm:text-lg">
               {portfolio.tagline}
             </p>
             <MotoTags
               tags={portfolio.motoTags}
               primary={portfolio.cybersecPrimary}
             />
-            <div className="mt-8 grid grid-cols-2 gap-3 xl:grid-cols-[1.2fr_1fr_1fr_1fr]">
+            <div className="mt-5 grid grid-cols-2 gap-3 xl:grid-cols-[1.2fr_1fr_1fr_1fr]">
               <ExternalLinkButton
                 href={portfolio.links.resume}
                 variant="primary"
@@ -172,7 +172,7 @@ export default async function Home() {
                 Email me
               </ExternalLinkButton>
             </div>
-            <div className="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               <MetricCard
                 label="THM Rank"
                 value={thm.percentile}
