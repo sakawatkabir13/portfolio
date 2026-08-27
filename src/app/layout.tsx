@@ -63,11 +63,7 @@ export default function RootLayout({
     url: SITE_URL,
     email: "mailto:tanveersakawat13@gmail.com",
     affiliation: {
-      "@type": "College",
-      name: "Chittagong University of Engineering & Technology"
-    },
-    alumniOf: {
-      "@type": "EducationalOrganization",
+      "@type": "CollegeOrUniversity",
       name: "Chittagong University of Engineering & Technology"
     },
     knowsAbout: [

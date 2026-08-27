@@ -18,11 +18,16 @@ type GitHubRepositoryResponse = {
   language: string | null;
 };
 
-const GITHUB_HEADERS = {
-  Accept: "application/vnd.github+json",
-  "User-Agent": "basilisk13-portfolio",
-  "X-GitHub-Api-Version": "2022-11-28"
-};
+function getGitHubHeaders() {
+  const token = process.env.GITHUB_TOKEN?.trim();
+
+  return {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "basilisk13-portfolio",
+    "X-GitHub-Api-Version": "2022-11-28",
+    ...(token ? { Authorization: `Bearer ${token}` } : {})
+  };
+}
 
 export async function fetchGitHubProfileStats(
   username: string,
@@ -30,7 +35,7 @@ export async function fetchGitHubProfileStats(
 ): Promise<GitHubProfileStats> {
   const encodedUsername = encodeURIComponent(username);
   const requestOptions = {
-    headers: GITHUB_HEADERS,
+    headers: getGitHubHeaders(),
     next: { revalidate: 3600 },
     signal
   } as const;

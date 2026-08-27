@@ -14,7 +14,7 @@ export function PlatformsStrip() {
           href={portfolio.links.tryHackMe}
           target="_blank"
           rel="noreferrer"
-          className="group flex h-full flex-col border border-line bg-surface p-5 transition hover:-translate-y-1 hover:border-mint/60 hover:shadow-rose"
+          className="group flex h-full flex-col border border-line bg-surface p-5 transition hover:-translate-y-1 hover:border-mint/60 hover:shadow-mint"
         >
           <div className="flex items-center justify-between">
             <Shield className="h-7 w-7 text-mint" />
@@ -71,7 +71,7 @@ export function PlatformsStrip() {
           href={portfolio.links.codeforces}
           target="_blank"
           rel="noreferrer"
-          className="group flex h-full flex-col border border-line bg-surface p-5 transition hover:-translate-y-1 hover:border-mint/60 hover:shadow-rose"
+          className="group flex h-full flex-col border border-line bg-surface p-5 transition hover:-translate-y-1 hover:border-mint/60 hover:shadow-mint"
         >
           <div className="flex items-center justify-between">
             <Code2 className="h-7 w-7 text-mint" />

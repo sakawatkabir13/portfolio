@@ -1,12 +1,12 @@
 import React from "react";
 import { Crosshair, Tag } from "lucide-react";
 
-type MotoTagsProps = {
+type CoreStrengthsProps = {
   tags: readonly string[];
   primary?: string;
 };
 
-export function MotoTags({ tags, primary }: MotoTagsProps) {
+export function CoreStrengths({ tags, primary }: CoreStrengthsProps) {
   if (!tags || tags.length === 0) return null;
 
   return (

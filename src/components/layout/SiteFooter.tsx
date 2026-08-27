@@ -1,15 +1,15 @@
 import Link from "next/link";
 import React from "react";
 import {
+  BookOpen,
   Code2,
   FileText,
-  Flag,
+  FolderGit2,
   Github,
   Linkedin,
   Mail,
   Rss,
-  Sparkles,
-  Wrench
+  Sparkles
 } from "lucide-react";
 import { CtfBadge } from "@/components/ctf/CtfBadge";
 import { portfolio } from "@/data/portfolio";
@@ -41,16 +41,25 @@ export function SiteFooter() {
 
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.24em] text-zinc-400">
-              Read
+              Explore
             </p>
             <ul className="mt-3 space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 text-zinc-300 transition hover:text-mint"
+                >
+                  <FolderGit2 className="h-3.5 w-3.5" />
+                  Projects
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/blog"
                   className="inline-flex items-center gap-2 text-zinc-300 transition hover:text-mint"
                 >
-                  <Wrench className="h-3.5 w-3.5" />
-                  Blog
+                  <BookOpen className="h-3.5 w-3.5" />
+                  Writeups &amp; Notes
                 </Link>
               </li>
               <li>
@@ -60,15 +69,6 @@ export function SiteFooter() {
                 >
                   <Rss className="h-3.5 w-3.5" />
                   RSS feed
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#writeups"
-                  className="inline-flex items-center gap-2 text-zinc-300 transition hover:text-mint"
-                >
-                  <Flag className="h-3.5 w-3.5" />
-                  Latest writeups
                 </Link>
               </li>
             </ul>

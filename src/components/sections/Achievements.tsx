@@ -24,7 +24,7 @@ export function Achievements() {
             <p className="mt-4 text-sm leading-7 text-zinc-300">{achievement.description}</p>
             {credentialUrl ? (
               <p className="mt-5 font-mono text-xs uppercase tracking-[0.16em] text-rose">
-                View supplied certificate →
+                View certificate →
               </p>
             ) : null}
           </>

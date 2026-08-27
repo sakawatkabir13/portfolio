@@ -4,6 +4,7 @@ import { fetchGitHubProfileStats } from "@/lib/github-profile";
 describe("GitHub profile statistics", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("combines live profile and repository data", async () => {
@@ -36,5 +37,28 @@ describe("GitHub profile statistics", () => {
       topLanguages: ["Python", "TypeScript"]
     });
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("uses an optional server-side token for authenticated requests", async () => {
+    vi.stubEnv("GITHUB_TOKEN", "test-token");
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ public_repos: 1, followers: 0, following: 0 })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => []
+      });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchGitHubProfileStats("sakawatkabir13");
+
+    for (const [, options] of fetchMock.mock.calls) {
+      expect(options.headers.Authorization).toBe("Bearer test-token");
+    }
   });
 });

@@ -30,8 +30,8 @@ const CHECK_LIST: Array<{
   { key: "hasLower", label: "Lowercase a-z" },
   { key: "hasDigit", label: "Digits 0-9" },
   { key: "hasSymbol", label: "Symbols !@#" },
-  { key: "noRepeats", label: "No repeating chars" },
-  { key: "noCommon", label: "Not on common lists" }
+  { key: "noRepeats", label: "No 3+ repeated characters" },
+  { key: "noCommon", label: "Not in small demo list" }
 ];
 
 export function PasswordAnalyzer() {
@@ -39,28 +39,36 @@ export function PasswordAnalyzer() {
   const [visible, setVisible] = useState(false);
 
   const result = useMemo(() => analyzePassword(password), [password]);
+  const strengthIndex = ["very-weak", "weak", "fair", "strong", "very-strong"].indexOf(
+    result.strength
+  );
   const meterWidth = useMemo(() => {
-    const idx = ["very-weak", "weak", "fair", "strong", "very-strong"].indexOf(
-      result.strength
-    );
-    return `${Math.max(8, ((idx + 1) / 5) * 100)}%`;
-  }, [result.strength]);
+    return `${Math.max(8, ((strengthIndex + 1) / 5) * 100)}%`;
+  }, [strengthIndex]);
 
   return (
     <div className="space-y-4 font-mono text-sm">
+      <p className="border border-ember/40 bg-ember/5 px-3 py-2 text-xs leading-5 text-ember">
+        Do not paste a real password. This is a simplified educational estimate,
+        calculated entirely in your browser.
+      </p>
       <div className="flex items-center gap-2 border border-line bg-surface p-3">
+        <label htmlFor="password-analyzer-input" className="sr-only">
+          Password to analyze
+        </label>
         <input
+          id="password-analyzer-input"
           type={visible ? "text" : "password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Type a password to analyze..."
-          className="flex-1 border border-line bg-canvas px-3 py-2 text-ink outline-none focus:border-mint"
+          className="flex-1 border border-line bg-canvas px-3 py-2 text-ink outline-none focus:border-mint focus-visible:ring-2 focus-visible:ring-mint/40"
         />
         <button
           type="button"
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? "Hide password" : "Show password"}
-          className="inline-flex h-9 w-9 items-center justify-center border border-line bg-surface-soft text-zinc-400 transition hover:border-ember hover:text-ember"
+          className="inline-flex h-9 w-9 items-center justify-center border border-line bg-surface-soft text-zinc-400 transition hover:border-ember hover:text-ember focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/60"
         >
           {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
@@ -68,7 +76,7 @@ export function PasswordAnalyzer() {
 
       <div className="grid gap-3 md:grid-cols-4">
         <div className="border border-line bg-surface p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">strength</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">estimated strength</p>
           <p className="mt-2 flex items-center gap-2 text-lg text-ink">
             {result.strength === "very-strong" || result.strength === "strong" ? (
               <ShieldCheck className="h-4 w-4 text-mint" />
@@ -81,16 +89,26 @@ export function PasswordAnalyzer() {
             <div
               className={`h-full transition-all ${STRENGTH_COLOR[result.strength]}`}
               style={{ width: meterWidth }}
+              role="progressbar"
+              aria-label="Estimated password strength"
+              aria-valuemin={1}
+              aria-valuemax={5}
+              aria-valuenow={strengthIndex + 1}
+              aria-valuetext={STRENGTH_LABEL[result.strength]}
             />
           </div>
         </div>
         <div className="border border-line bg-surface p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">entropy</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">
+            theoretical entropy upper bound
+          </p>
           <p className="mt-2 text-lg text-ink">{result.entropy.toFixed(1)} bits</p>
         </div>
         <div className="border border-line bg-surface p-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">crack time</p>
-          <p className="mt-2 text-lg text-ink">@ 10B/sec</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-zinc-400">
+            brute-force estimate
+          </p>
+          <p className="mt-2 text-lg text-ink">@ 10B guesses/sec</p>
           <p className="mt-1 text-xs text-mint">{formatCrackTime(result.crackTimeSeconds)}</p>
         </div>
         <div className="border border-line bg-surface p-4">
@@ -125,7 +143,8 @@ export function PasswordAnalyzer() {
       </div>
 
       <p className="text-xs text-zinc-400">
-        100% local analysis — your password never leaves this browser.
+        Pattern-based attacks and breached-password data are outside this demo&apos;s
+        scope, so these values are not a security guarantee.
       </p>
     </div>
   );

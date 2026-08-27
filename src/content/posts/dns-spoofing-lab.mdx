@@ -2,41 +2,80 @@
 title: "DNS Spoofing in a Lab: What Scapy Teaches You About Trust"
 date: "2026-08-12"
 tags: ["scapy", "networking", "lab", "security"]
-excerpt: "Notes from building a custom DNS spoofer in an isolated lab. What I learned about why DNS is the protocol we love to break."
+excerpt: "Defensive lessons from an authorized Scapy DNS-spoofing lab: packet flow, race conditions, detection signals, and the distinct roles of DNSSEC, DoT, and DoH."
 category: "writeup"
 ---
 
-I built a fully custom DNS spoofer with Scapy as a learning project. The repo is at
+I built a custom DNS-spoofing lab with Scapy to study how ARP manipulation and
+forged DNS responses interact on a local network. The project is documented in
 [`full-custom-dns-spoofer-with-scapy`](https://github.com/sakawatkabir13/full-custom-dns-spoofer-with-scapy).
-This post is a writeup of what the lab actually taught me about networking, not a tutorial.
 
-## The setup
+> This work was performed only in an isolated, authorized lab. Intercepting or
+> altering traffic on a network without explicit permission is unethical and may
+> be illegal.
 
-Two VMs on an isolated host-only network. One runs the "router" script (ARP spoof + DNS interceptor),
-the other is a Linux client that I treat as my victim for the duration of the exercise. I never run
-this on networks I do not own.
+## Lab boundary and packet flow
 
-## What I expected vs. what I learned
+The environment used two virtual machines on a host-only network: a Linux client
+and a lab router running the interception code. No production or third-party
+network was in scope.
 
-I expected the hardest part to be crafting the DNS response. It was not. The hardest part was getting
-the layer-2 mitm right: maintaining the ARP table state, avoiding the victim's kernel from clobbering
-the spoof, and timing the responses so the legitimate reply from the real upstream DNS did not arrive
-first and cause a race.
+```text
+Linux client
+    │  1. DNS query
+    ▼
+Lab router / Scapy interceptor ──────► Upstream resolver
+    │                                  │
+    │  2. Forged response              │  Legitimate response
+    └──────────────────────────────────┘
+                 response race
+```
 
-I learned that **DNS is fast, not safe**. The protocol was designed when networks were small and
-trust was implicit. Almost every security control we have around it today (DNSSEC, DoH, DoT, validated
-resolvers) is layered on top of that assumption.
+The exercise made one point especially clear: crafting a DNS answer is only one
+part of the system. A successful man-in-the-middle (MITM) position also depends on
+maintaining the layer-2 path, handling packet forwarding correctly, and observing
+the race between a forged reply and the legitimate resolver response.
 
-## Three takeaways
+## What the lab demonstrated
 
-1. **Trust is the enemy.** Anything on the wire that is not authenticated should be treated as
-   hostile by default. The lab made this visceral.
-2. **Layer-2 is just as interesting as layer-7.** Most CTF web work focuses on HTTP. ARP and DNS
-   attacks are quieter and more fun to reason about.
-3. **Defender mindset comes from attacker reps.** I now look at every network I join with a slightly
-   different eye.
+Traditional DNS responses are not inherently authenticated. A client that accepts
+an unauthenticated response can be misdirected if an attacker is able to observe or
+influence the relevant network path.
 
-## What I changed in my own setup
+The defensive technologies often discussed beside DNS solve different problems:
 
-After running the lab a few times, I hardened my home network: encrypted DNS at the resolver, static
-ARP entries on the devices I actually care about, and a habit of checking `arp -a` on sketchy Wi-Fi.
+- **DNSSEC** provides data-origin authentication and integrity for signed DNS data;
+  it does not provide confidentiality.
+- **DNS over TLS (DoT)** and **DNS over HTTPS (DoH)** encrypt DNS transport between
+  the client and its configured resolver. They do not, by themselves, authenticate
+  the zone data in the way DNSSEC does.
+
+These controls can complement one another, but they are not interchangeable.
+
+## Detection opportunities
+
+Defenders can look for signals at several layers:
+
+- unexpected or rapidly changing ARP mappings, especially for the default gateway;
+- duplicate IP-to-MAC associations observed by network monitoring;
+- DNS answers that conflict across resolvers or arrive with abnormal timing;
+- sudden changes in resolver configuration or encrypted-DNS endpoints;
+- certificate warnings or TLS hostname mismatches after an unexpected DNS answer.
+
+No single signal proves DNS spoofing. Correlating endpoint, switch, resolver, and
+network telemetry provides much stronger evidence than relying on one local cache.
+
+## Practical takeaways
+
+1. Map the complete packet path before reasoning about an application-layer symptom.
+2. Treat local-network trust as an assumption that must be tested and monitored.
+3. Use encrypted resolver transport and DNSSEC validation for their intended,
+   distinct protections.
+4. Design lab tooling with an explicit authorization boundary and document that
+   boundary beside the code.
+
+## Standards referenced
+
+- [RFC 4033: DNS Security Introduction and Requirements](https://datatracker.ietf.org/doc/html/rfc4033)
+- [RFC 7858: DNS over Transport Layer Security](https://datatracker.ietf.org/doc/html/rfc7858)
+- [RFC 8484: DNS Queries over HTTPS](https://datatracker.ietf.org/doc/html/rfc8484)

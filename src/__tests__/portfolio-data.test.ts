@@ -37,8 +37,8 @@ describe("portfolio content", () => {
     expect(portfolio.technicalSkills.map((group) => group.label)).toEqual([
       "Languages",
       "Backend & Data Engineering",
-      "Security & networking",
-      "Systems & infrastructure"
+      "Security & Networking",
+      "Systems & Infrastructure"
     ]);
     expect(portfolio.technicalSkills.flatMap((group) => group.items)).toEqual(
       expect.arrayContaining([
@@ -65,7 +65,7 @@ describe("portfolio content", () => {
     });
     expect(portfolio.certifications[0].credentialUrl).toContain("THM-WSXL8QIXRZ");
     expect(portfolio.certifications[1]).toMatchObject({
-      name: "Associate Data Engineer",
+      name: "Data Engineer Associate",
       issuer: "DataCamp",
       credentialUrl: "https://www.datacamp.com/certificate/DEA0011268715074"
     });
@@ -99,8 +99,8 @@ describe("portfolio content", () => {
     });
   });
 
-  it("features all 15 GitHub repos and the new pillars", () => {
-    expect(portfolio.projects.length).toBe(15);
+  it("features the selected 13 public projects and the new pillars", () => {
+    expect(portfolio.projects.length).toBe(13);
     const projectSlugs = portfolio.projects.map((project) => project.slug);
 
     expect(projectSlugs).toContain("basilisk-shell");
@@ -116,6 +116,8 @@ describe("portfolio content", () => {
     expect(projectSlugs).toContain(
       "real-time-cyber-attack-monitoring-and-threat-intelligence-platform"
     );
+    expect(projectSlugs).not.toContain("devops-journey");
+    expect(projectSlugs).not.toContain("sakawatkabir13");
     for (const project of portfolio.projects) {
       expect(project.title.length).toBeGreaterThan(0);
       expect(project.href).toMatch(/^https:\/\/github\.com\/sakawatkabir13\//);
@@ -136,13 +138,13 @@ describe("portfolio content", () => {
       "Self-Hosted Cloud Server",
       "Full Custom DNS Spoofer with Scapy",
       "Hermes Cloud Agent Lab",
-      "Associate Data Engineer (DataCamp)",
+      "Data Engineer Associate (DataCamp)",
       "Basilisk Shell",
       "TryHackMe: Top 15%",
       "CompTIA Network+ (N10-009)",
-      "IUPC at CUET CSE FEST 2025",
+      "111th Place — CUET IUPC 2025",
       "Codeforces Pupil Rank",
-      "ICPC Asia Dhaka Preliminary",
+      "Honorable Mention — ICPC Asia Dhaka Preliminary 2024",
       "7th Place — Junior Programming Contest",
       "Competitive Programming Origin"
     ]);
@@ -168,7 +170,7 @@ describe("portfolio content", () => {
       expect(["milestone", "tool", "finding", "cert"]).toContain(entry.type);
       expect(entry.title.length).toBeGreaterThan(0);
     }
-    const icpc = portfolio.journey.find((j) => j.title.startsWith("ICPC"));
+    const icpc = portfolio.journey.find((j) => j.title.includes("ICPC"));
     expect(icpc).toBeDefined();
     expect(icpc?.tags).toContain("icpc");
     const networkPlus = portfolio.journey.find((j) => j.title.startsWith("CompTIA"));
@@ -179,11 +181,11 @@ describe("portfolio content", () => {
     });
     expect(portfolio.achievements.map((achievement) => achievement.title)).toEqual([
       "1st Runner-Up — Zero to Production",
-      "Team rank 111 — CUET IUPC 2025",
-      "ICPC Asia Dhaka Preliminary",
+      "111th Place — CUET IUPC 2025",
+      "Honorable Mention — ICPC Asia Dhaka Preliminary 2024",
       "7th Place — Junior Programming Contest"
     ]);
-    expect(portfolio.achievements.find((achievement) => achievement.title.startsWith("ICPC"))).toMatchObject({
+    expect(portfolio.achievements.find((achievement) => achievement.title.includes("ICPC"))).toMatchObject({
       credentialUrl: "/certificates/icpc-2024-dhaka-preliminary-honorable.pdf"
     });
     expect(portfolio.ctf.challenges.length).toBe(3);
@@ -191,9 +193,6 @@ describe("portfolio content", () => {
       // expectedHash must be a 64-char lowercase hex string (SHA-256)
       expect(challenge.expectedHash).toMatch(/^[0-9a-f]{64}$/);
     }
-    expect(portfolio.toolkit.cipher).toBe(true);
-    expect(portfolio.toolkit.password).toBe(true);
-    expect(portfolio.toolkit.hash).toBe(true);
     expect(portfolio.liveStatus.line2).toContain("INTERNSHIPS");
   });
 });

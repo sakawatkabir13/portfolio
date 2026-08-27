@@ -33,7 +33,7 @@ describe("home page", () => {
     expect(screen.getByRole("heading", { name: /mohammad sakawat kabir/i })).toBeTruthy();
     expect(screen.getAllByText(/backend & systems developer/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/basilisk shell/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/associate data engineer/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/data engineer associate/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/top 4%/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/script kiddie/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/1st runner-up/i).length).toBeGreaterThan(0);
@@ -54,7 +54,7 @@ describe("home page", () => {
     expect(screen.getAllByRole("link", { name: /^skills$/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /^toolkit$/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/recent milestones and shipped work/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/latest from the blog/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/latest writeups & notes/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/capture the flag/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/researcher'?s toolkit/i).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("heading", { name: /three challenges hidden/i }).length).toBeGreaterThan(0);

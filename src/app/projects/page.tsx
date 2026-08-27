@@ -7,7 +7,7 @@ import { SiteNav } from "@/components/layout/SiteNav";
 import { portfolio } from "@/data/portfolio";
 
 export const metadata: Metadata = {
-  title: "Projects | Mohammad Sakawat Kabir",
+  title: "Projects",
   description:
     "Security, backend, infrastructure, automation, and community projects built by Mohammad Sakawat Kabir."
 };

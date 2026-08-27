@@ -1,8 +1,3 @@
-export type SocialLink = {
-  label: string;
-  href: string;
-};
-
 export type Project = {
   slug: string;
   title: string;
@@ -15,7 +10,6 @@ export type Project = {
   build?: string;
   evidence?: string;
   stars?: number;
-  language?: string;
 };
 
 export const portfolio = {
@@ -50,8 +44,8 @@ export const portfolio = {
     codeforcesRank: "Pupil",
     codeforcesRating: 1201,
     codeforcesMaxRating: 1226,
-    contest: "Team rank 111 · CUET IUPC 2025",
-    juniorContest: "7th place · CUET Junior Programming Contest"
+    contest: "111th Place · CUET IUPC 2025",
+    juniorContest: "7th Place · CUET Junior Programming Contest"
   },
   platforms: {
     tryHackMe: {
@@ -93,11 +87,11 @@ export const portfolio = {
       issuedAt: "Aug 2026"
     },
     {
-      name: "Associate Data Engineer",
+      name: "Data Engineer Associate",
       issuer: "DataCamp",
       credentialUrl: "https://www.datacamp.com/certificate/DEA0011268715074",
       focus:
-        "SQL fluency for log analysis — reading and writing the queries that surface SQLi, brute-force, and exfiltration patterns in security data.",
+        "Data management theory, database schemas and design, SQL extraction and aggregation, data cleaning, and data quality validation.",
       issuedAt: "Feb 2026"
     },
     {
@@ -139,7 +133,7 @@ export const portfolio = {
       ]
     },
     {
-      label: "Security & networking",
+      label: "Security & Networking",
       items: [
         "Penetration Testing",
         "Network Traffic Analysis",
@@ -149,7 +143,7 @@ export const portfolio = {
       ]
     },
     {
-      label: "Systems & infrastructure",
+      label: "Systems & Infrastructure",
       items: ["Linux", "Docker", "AWS EC2", "Git", "Nginx Proxy Manager", "Twingate"]
     }
   ],
@@ -163,17 +157,18 @@ export const portfolio = {
       credentialUrl: "/certificates/zero-to-production-runner-up.pdf"
     },
     {
-      title: "Team rank 111 — CUET IUPC 2025",
+      title: "111th Place — CUET IUPC 2025",
       organization: "CUET CSE FEST",
       issuedAt: "Dec 2025",
       description:
-        "Competed against university teams from across Bangladesh in the CUET CSE FEST 2025 Inter-University Programming Contest, earning team rank 111."
+        "Competed against university teams from across Bangladesh in the CUET CSE FEST 2025 Inter-University Programming Contest, placing 111th."
     },
     {
-      title: "ICPC Asia Dhaka Preliminary",
+      title: "Honorable Mention — ICPC Asia Dhaka Preliminary 2024",
       organization: "ICPC",
       issuedAt: "Nov 2024",
-      description: "Competed in the ICPC Asia Dhaka Preliminary 2024.",
+      description:
+        "Competed in the ICPC Asia Dhaka Preliminary 2024 and received an Honorable Mention.",
       credentialUrl: "/certificates/icpc-2024-dhaka-preliminary-honorable.pdf"
     },
     {
@@ -218,7 +213,7 @@ export const portfolio = {
       type: "milestone",
       title: "Hack The Box: Script Kiddie",
       description:
-        "First HTB owns: 4 user + 4 system, Script Kiddie rank, working from CUET's hostel network.",
+        "Earned 4 user owns and 4 system owns, reaching the Script Kiddie rank.",
       tags: ["htb", "lab"]
     },
     {
@@ -252,10 +247,10 @@ export const portfolio = {
       year: "2026",
       month: "Feb",
       type: "cert",
-      title: "Associate Data Engineer (DataCamp)",
+      title: "Data Engineer Associate (DataCamp)",
       description:
-        "Completed the Associate Data Engineer track: SQL fluency for log analysis, data cleaning, validation, and exploratory analysis.",
-      tags: ["datacamp", "sql", "security"]
+        "Earned the DataCamp Data Engineer Associate certification, validating SQL data extraction and aggregation, data cleaning, database design, and data quality practices.",
+      tags: ["datacamp", "sql", "data engineering"]
     },
     {
       year: "2026",
@@ -288,9 +283,9 @@ export const portfolio = {
       year: "2025",
       month: "Dec",
       type: "milestone",
-      title: "IUPC at CUET CSE FEST 2025",
+      title: "111th Place — CUET IUPC 2025",
       description:
-        "Competed against university teams from across Bangladesh in the CUET CSE FEST 2025 Inter-University Programming Contest, earning team rank 111.",
+        "Competed against university teams from across Bangladesh in the CUET CSE FEST 2025 Inter-University Programming Contest, placing 111th.",
       tags: ["cp", "contest"]
     },
     {
@@ -299,16 +294,16 @@ export const portfolio = {
       type: "milestone",
       title: "Codeforces Pupil Rank",
       description:
-        "Reached Pupil on Codeforces after sustained practice across div 2 and div 3 contests.",
+        "Reached Pupil on Codeforces after sustained practice across Division 2 and Division 3 contests.",
       tags: ["cp", "codeforces"]
     },
     {
       year: "2024",
       month: "Nov",
       type: "milestone",
-      title: "ICPC Asia Dhaka Preliminary",
+      title: "Honorable Mention — ICPC Asia Dhaka Preliminary 2024",
       description:
-        "Competed in the ICPC Asia Dhaka Preliminary in November 2024.",
+        "Competed in the ICPC Asia Dhaka Preliminary 2024 and received an Honorable Mention.",
       tags: ["cp", "icpc"]
     },
     {
@@ -326,15 +321,10 @@ export const portfolio = {
       type: "milestone",
       title: "Competitive Programming Origin",
       description:
-        "Started the CP grind on online judges. First taste of algorithmic thinking under contest pressure.",
+        "Began competitive programming on online judges, developing algorithmic problem-solving under contest constraints.",
       tags: ["cp", "learning"]
     }
   ],
-  toolkit: {
-    cipher: true,
-    password: true,
-    hash: true
-  },
   ctf: {
     intro:
       "Three flags are hidden in this site. Inspect the source, decode the clues, submit below. Solve all three for a badge in the footer.",
@@ -388,8 +378,7 @@ export const portfolio = {
       build:
         "Built a self-hosted detection pipeline with a lightweight log agent, hybrid rule + ML engine, WebSocket event stream, and live dashboard.",
       evidence: "Detects SQLi, XSS, brute-force, and DDoS activity.",
-      stars: 0,
-      language: "TypeScript"
+      stars: 0
     },
     {
       slug: "cinemaseat",
@@ -404,8 +393,7 @@ export const portfolio = {
       build:
         "Combined Redis atomic holds (SET NX EX) with PostgreSQL unique constraints so double-booking is structurally prevented.",
       evidence: "1st Runner-Up · Zero to Production Hackathon 2026.",
-      stars: 0,
-      language: "TypeScript"
+      stars: 0
     },
     {
       slug: "spandan",
@@ -415,8 +403,7 @@ export const portfolio = {
       stack: ["Python", "React", "FastAPI", "PostgreSQL", "Groq"],
       href: "https://github.com/sakawatkabir13/spandan",
       category: "Web App",
-      stars: 0,
-      language: "Python"
+      stars: 0
     },
     {
       slug: "self-hosted-cloud-server",
@@ -431,8 +418,7 @@ export const portfolio = {
       build:
         "Containerized Nextcloud, MariaDB, Redis, Pi-hole, and Nginx Proxy Manager, then exposed them through Twingate zero-trust access.",
       evidence: "Private file sync, HTTPS access, local DNS, and remote connectivity on a self-hosted stack.",
-      stars: 1,
-      language: "Python"
+      stars: 1
     },
     {
       slug: "full-custom-dns-spoofer-with-scapy",
@@ -447,8 +433,7 @@ export const portfolio = {
       build:
         "Built an authorized-lab toolkit covering MAC manipulation, discovery, ARP spoofing, packet sniffing, and targeted DNS responses.",
       evidence: "End-to-end Scapy workflow for isolated DNS-spoofing labs.",
-      stars: 1,
-      language: "Python"
+      stars: 1
     },
     {
       slug: "hermes-cloud-agent-lab",
@@ -458,8 +443,7 @@ export const portfolio = {
       stack: ["Shell", "AWS EC2", "Ollama", "Telegram"],
       href: "https://github.com/sakawatkabir13/hermes-cloud-agent-lab",
       category: "Cloud",
-      stars: 1,
-      language: "Shell"
+      stars: 1
     },
     {
       slug: "basilisk-shell",
@@ -474,8 +458,7 @@ export const portfolio = {
       build:
         "Added audited command generation, layered safety checks, risk-gated execution, multilingual input, and command-history logging.",
       evidence: "Commands remain reviewable before execution instead of being run blindly.",
-      stars: 2,
-      language: "Python"
+      stars: 2
     },
     {
       slug: "agrilink",
@@ -485,8 +468,7 @@ export const portfolio = {
       stack: ["React", "TypeScript", "Supabase", "Stripe"],
       href: "https://github.com/sakawatkabir13/AgriLink",
       category: "Web App",
-      stars: 0,
-      language: "TypeScript"
+      stars: 0
     },
     {
       slug: "whatsapp-auto-message-sender",
@@ -496,8 +478,7 @@ export const portfolio = {
       stack: ["Python", "PyWhatKit", "Automation"],
       href: "https://github.com/sakawatkabir13/whatsapp-auto-message-sender",
       category: "Bot",
-      stars: 0,
-      language: "Python"
+      stars: 0
     },
     {
       slug: "pdf-merger",
@@ -507,8 +488,7 @@ export const portfolio = {
       stack: ["Python", "Flask", "PyPDF2"],
       href: "https://github.com/sakawatkabir13/pdf-merger",
       category: "Web App",
-      stars: 0,
-      language: "CSS"
+      stars: 0
     },
     {
       slug: "cuet-insights",
@@ -523,8 +503,7 @@ export const portfolio = {
       build:
         "Built a Spring Boot and MySQL platform with JWT-secured access, complaint tracking, innovation showcases, and resource sharing.",
       evidence: "One role-aware platform for students, faculty, and alumni.",
-      stars: 0,
-      language: "Java"
+      stars: 0
     },
     {
       slug: "cuet-jam",
@@ -534,30 +513,7 @@ export const portfolio = {
       stack: ["Java", "Spring Boot", "MySQL", "JWT"],
       href: "https://github.com/sakawatkabir13/cuet-jam",
       category: "Full-Stack",
-      stars: 0,
-      language: "Java"
-    },
-    {
-      slug: "devops-journey",
-      title: "DevOps Journey",
-      description:
-        "A learning repo tracking my DevOps experiments, notes, and small scripts as I work through pipelines, containers, and infrastructure.",
-      stack: ["Python", "DevOps", "Linux"],
-      href: "https://github.com/sakawatkabir13/devops-journey",
-      category: "Learning",
-      stars: 0,
-      language: "Python"
-    },
-    {
-      slug: "sakawatkabir13",
-      title: "sakawatkabir13",
-      description:
-        "My personal GitHub profile repository — the README that introduces who I am and what I build.",
-      stack: ["Profile"],
-      href: "https://github.com/sakawatkabir13/sakawatkabir13",
-      category: "Profile",
-      stars: 0,
-      language: "Markdown"
+      stars: 0
     },
     {
       slug: "discord-music-bot",
@@ -567,15 +523,7 @@ export const portfolio = {
       stack: ["Python", "Discord API"],
       href: "https://github.com/sakawatkabir13/DiscordBots",
       category: "Bot",
-      stars: 0,
-      language: "Python"
+      stars: 0
     }
-  ] satisfies Project[],
-  socials: [
-    { label: "GitHub", href: "https://github.com/sakawatkabir13" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/s-kbr13" },
-    { label: "TryHackMe", href: "https://tryhackme.com/p/Basilisk13" },
-    { label: "Hack The Box", href: "https://app.hackthebox.com/users/3214075" },
-    { label: "Email", href: "mailto:tanveersakawat13@gmail.com" }
-  ] satisfies SocialLink[]
+  ] satisfies Project[]
 } as const;

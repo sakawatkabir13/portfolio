@@ -21,9 +21,8 @@ export function HashGenerator() {
     "SHA-512": ""
   });
   const [md5Result, setMd5Result] = useState("");
-  const [active, setActive] = useState<HashAlgorithm>("SHA-256");
   const [computing, setComputing] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
 
   useEffect(() => {
     if (!input) {
@@ -34,6 +33,7 @@ export function HashGenerator() {
         "SHA-512": ""
       });
       setMd5Result("");
+      setComputing(false);
       return;
     }
     let cancelled = false;
@@ -71,29 +71,26 @@ export function HashGenerator() {
     };
   }, [input]);
 
-  const handleCopy = async (value: string) => {
+  const handleCopy = async (label: string, value: string) => {
     if (!value || value.startsWith("[error]")) return;
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setCopiedLabel(label);
+      setTimeout(() => setCopiedLabel(null), 1500);
     } catch {
       // ignore
     }
   };
 
-  const renderHashRow = (label: string, value: string, accent: string, isActive: boolean) => {
+  const renderHashRow = (label: string, value: string) => {
+    const copied = copiedLabel === label;
     return (
-      <div
-        className={`border p-3 transition ${
-          isActive ? `${accent} bg-mint/5` : "border-line bg-surface"
-        }`}
-      >
+      <div key={label} className="border border-line bg-surface p-3">
         <div className="flex items-center justify-between text-xs uppercase tracking-[0.22em] text-zinc-400">
           <span>{label}</span>
           <button
             type="button"
-            onClick={() => handleCopy(value)}
+            onClick={() => handleCopy(label, value)}
             disabled={!value || value.startsWith("[error]")}
             aria-label={`Copy ${label} digest`}
             className="inline-flex items-center gap-1 text-zinc-400 transition hover:text-mint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/60 disabled:opacity-40"
@@ -132,38 +129,20 @@ export function HashGenerator() {
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 border border-line bg-surface p-3">
-        <span className="text-xs uppercase tracking-[0.22em] text-zinc-400">algo</span>
-        {ALGORITHMS.map((a) => (
-          <button
-            key={a.id}
-            type="button"
-            onClick={() => setActive(a.id)}
-            aria-pressed={active === a.id}
-            className={`border px-3 py-1.5 text-xs uppercase tracking-wider transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/60 ${
-              active === a.id
-                ? "border-mint bg-mint/10 text-mint"
-                : "border-line bg-surface-soft text-zinc-400 hover:border-ember hover:text-ember"
-            }`}
-          >
-            {a.label}
-          </button>
-        ))}
+      <div className="flex items-center justify-between gap-3 border border-line bg-surface p-3">
+        <span className="text-xs uppercase tracking-[0.22em] text-zinc-400">
+          digest comparison
+        </span>
         {computing && (
-          <span className="ml-auto text-xs uppercase tracking-[0.22em] text-ember">
+          <span className="text-xs uppercase tracking-[0.22em] text-ember">
             computing…
           </span>
         )}
       </div>
 
       <div className="space-y-2">
-        {ALGORITHMS.map((a) => renderHashRow(a.label, results[a.id], "border-mint/60", active === a.id))}
-        {renderHashRow(
-          "MD5",
-          md5Result,
-          "border-ember/60",
-          false
-        )}
+        {ALGORITHMS.map((a) => renderHashRow(a.label, results[a.id]))}
+        {renderHashRow("MD5", md5Result)}
       </div>
 
       <p className="space-y-1 text-xs text-zinc-400">

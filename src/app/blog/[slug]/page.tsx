@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { getAllSlugs, getPostBySlug } from "@/lib/posts";
 import { PostHeader } from "@/components/blog/PostHeader";
@@ -23,10 +24,10 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }) {
   const post = getPostBySlug(params.slug);
   if (!post) {
-    return { title: "Not found | Mohammad Sakawat Kabir" };
+    return { title: "Not found" };
   }
   return {
-    title: `${post.meta.title} | Mohammad Sakawat Kabir`,
+    title: post.meta.title,
     description: post.meta.excerpt
   };
 }
@@ -34,20 +35,13 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 export default function PostPage({ params }: { params: { slug: string } }) {
   const post = getPostBySlug(params.slug);
   if (!post) {
-    return (
-      <main className="mx-auto max-w-3xl px-5 py-20 text-center">
-        <h1 className="text-3xl font-bold text-ink">Post not found</h1>
-        <Link href="/blog" className="mt-6 inline-block text-rose hover:text-ember">
-          Back to all posts
-        </Link>
-      </main>
-    );
+    notFound();
   }
 
   return (
     <>
-      <SiteNav items={BLOG_NAV_ITEMS} showBackgroundToggle={false} />
-      <main id="main-content" tabIndex={-1} className="min-h-screen bg-canvas text-zinc-100 outline-none">
+      <SiteNav items={BLOG_NAV_ITEMS} />
+      <main id="main-content" tabIndex={-1} className="min-h-screen bg-canvas/70 text-zinc-100 outline-none backdrop-blur-[1px]">
         <div className="relative">
         <article className="mx-auto w-full max-w-3xl px-5 py-14 sm:px-8 lg:py-20">
           <PostHeader post={post.meta} />

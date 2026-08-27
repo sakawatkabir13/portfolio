@@ -14,7 +14,7 @@ export default function OpenGraph() {
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "#0c1014",
+          background: "#09090b",
           padding: 64,
           fontFamily: "monospace",
           color: "#f4f4f5"
@@ -26,12 +26,12 @@ export default function OpenGraph() {
             alignItems: "center",
             gap: 16,
             fontSize: 24,
-            color: "#f43f5e",
+            color: "#ff4d7d",
             letterSpacing: 4,
             textTransform: "uppercase"
           }}
         >
-          <span style={{ color: "#34d399" }}>~/</span>
+          <span style={{ color: "#4ade80" }}>~/</span>
           <span>basilisk13</span>
         </div>
         <div
@@ -45,7 +45,7 @@ export default function OpenGraph() {
           <div style={{ fontSize: 72, fontWeight: 900, color: "#f4f4f5", lineHeight: 1.05 }}>
             Mohammad Sakawat Kabir
           </div>
-          <div style={{ fontSize: 36, fontWeight: 700, color: "#f43f5e" }}>
+          <div style={{ fontSize: 36, fontWeight: 700, color: "#ff4d7d" }}>
             Security-Focused Backend & Systems Developer
           </div>
           <div style={{ fontSize: 26, color: "#a1a1aa", maxWidth: 1000 }}>
@@ -59,7 +59,7 @@ export default function OpenGraph() {
             alignItems: "center",
             gap: 24,
             fontSize: 22,
-            color: "#34d399",
+            color: "#4ade80",
             textTransform: "uppercase",
             letterSpacing: 4
           }}

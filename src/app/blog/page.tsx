@@ -14,7 +14,7 @@ const BLOG_NAV_ITEMS = [
 ];
 
 export const metadata = {
-  title: "Writeups & Notes | Mohammad Sakawat Kabir",
+  title: "Writeups & Notes",
   description:
     "CTF write-ups, CVE briefs, and notes from hands-on security labs, defensive research, and systems engineering."
 };
@@ -24,14 +24,14 @@ export default function BlogIndex() {
 
   return (
     <>
-      <SiteNav items={BLOG_NAV_ITEMS} showBackgroundToggle={false} />
-      <main id="main-content" tabIndex={-1} className="min-h-screen bg-canvas text-zinc-100 outline-none">
+      <SiteNav items={BLOG_NAV_ITEMS} />
+      <main id="main-content" tabIndex={-1} className="min-h-screen bg-canvas/70 text-zinc-100 outline-none backdrop-blur-[1px]">
         <div className="relative">
         <section className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:py-20">
           <div className="mb-8 border-l-4 border-rose pl-5">
-            <p className="font-mono text-xs uppercase tracking-[0.32em] text-ember">Writeups</p>
+            <p className="font-mono text-xs uppercase tracking-[0.32em] text-ember">Writing</p>
             <h1 className="mt-3 text-4xl font-bold tracking-normal text-ink sm:text-5xl">
-              Notes from the lab
+              Writeups &amp; Notes
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-300">
               CTF write-ups, CVE briefs, and notes from hands-on security labs, defensive

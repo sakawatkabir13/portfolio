@@ -26,7 +26,7 @@ import { IdentityTerminal } from "@/components/sections/IdentityTerminal";
 import { PlatformsStrip } from "@/components/sections/PlatformsStrip";
 import { Timeline } from "@/components/sections/Timeline";
 import { TechnicalSkills } from "@/components/sections/TechnicalSkills";
-import { MotoTags } from "@/components/sections/MotoTags";
+import { CoreStrengths } from "@/components/sections/CoreStrengths";
 import { ToolkitTabs } from "@/components/sections/ToolkitTabs";
 import { PostCard } from "@/components/blog/PostCard";
 import { getAllPosts } from "@/lib/posts";
@@ -68,8 +68,6 @@ async function loadGithubProfileStats(): Promise<GitHubProfileStats | null> {
   }
 }
 
-/* <!-- basilisk-shell · flag 1 hint: YmFzaWxpc2stc2hlbGw= --> */
-
 export default async function Home() {
   const [contributions, githubStats] = await Promise.all([
     loadGithubContributions(),
@@ -86,6 +84,13 @@ export default async function Home() {
     <>
       <SiteNav items={HOME_NAV_ITEMS} />
       <main id="main-content" tabIndex={-1} className="relative min-h-screen text-zinc-100 outline-none">
+      <span
+        hidden
+        aria-hidden="true"
+        dangerouslySetInnerHTML={{
+          __html: "<!-- basilisk-beacon: YmFzaWxpc2stc2hlbGw= -->"
+        }}
+      />
       <section
         id="top"
         className="relative isolate mx-auto grid min-h-[calc(100vh-73px)] w-full max-w-6xl items-center gap-8 overflow-hidden px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-6 lg:py-10 xl:grid-cols-[300px_minmax(0,1fr)]"
@@ -137,7 +142,7 @@ export default async function Home() {
             <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-300 sm:text-lg">
               {portfolio.tagline}
             </p>
-            <MotoTags
+            <CoreStrengths
               tags={portfolio.motoTags}
               primary={portfolio.cybersecPrimary}
             />
@@ -257,7 +262,7 @@ export default async function Home() {
         <ToolkitTabs />
       </Section>
 
-      <Section id="writeups" eyebrow="Writeups" title="Latest from the blog">
+      <Section id="writeups" eyebrow="Writing" title="Latest writeups & notes">
         <div className="grid gap-5 md:grid-cols-2">
           {latestPosts.length > 0 ? (
             latestPosts.map((post, index) => (
@@ -307,15 +312,13 @@ export default async function Home() {
                 <Mail className="h-4 w-4" />
                 Email me
               </ExternalLinkButton>
+              <ExternalLinkButton href={portfolio.links.linkedin}>
+                <Linkedin className="h-4 w-4" />
+                LinkedIn
+              </ExternalLinkButton>
               <ExternalLinkButton href={portfolio.links.github}>
                 <Github className="h-4 w-4" />
                 GitHub
-              </ExternalLinkButton>
-              <ExternalLinkButton href={portfolio.links.tryHackMe}>
-                TryHackMe
-              </ExternalLinkButton>
-              <ExternalLinkButton href={portfolio.links.hackTheBox}>
-                Hack The Box
               </ExternalLinkButton>
             </div>
           </div>

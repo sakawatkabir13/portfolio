@@ -68,7 +68,7 @@ export function GithubActivity({ contributions, stats }: Props) {
         <p className="mt-3 text-right font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-500">
           {stats
             ? "Live GitHub statistics · refreshed hourly"
-            : "Last known GitHub values"}
+            : "GitHub snapshot · Aug 2026"}
         </p>
       </Reveal>
 
@@ -150,7 +150,7 @@ export function GithubActivity({ contributions, stats }: Props) {
             profileUrl={gh.profileUrl}
           />
           <p className="mt-5 text-sm text-zinc-400">
-            Live commit activity scraped directly from{" "}
+            Live public contribution activity loaded from{" "}
             <a
               href={gh.profileUrl}
               target="_blank"

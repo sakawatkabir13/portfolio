@@ -5,8 +5,11 @@ import { Check, Flag, Lock, Unlock } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { portfolio } from "@/data/portfolio";
 import { sha256 } from "@/lib/hash";
-
-const STORAGE_KEY = "basilisk:ctf-solved";
+import {
+  announceSolvedChallenges,
+  CTF_STORAGE_KEY,
+  parseSolvedChallenges
+} from "@/components/ctf/ctf-state";
 
 function normalize(input: string): string {
   return input.trim().toLowerCase().replace(/\s+/g, "-");
@@ -27,18 +30,15 @@ export function FlagHunt() {
   const [solved, setSolved] = useState<string[]>([]);
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [hydrated, setHydrated] = useState(false);
-  // Per-challenge working state so the UI can show "checking..." on submit.
   const [pending, setPending] = useState<Record<string, boolean>>({});
+  const [feedback, setFeedback] = useState<Record<string, string>>({});
+  const challenges = portfolio.ctf.challenges;
+  const challengeIds = challenges.map((challenge) => challenge.id);
 
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          setSolved(parsed.filter((s): s is string => typeof s === "string"));
-        }
-      }
+      const raw = window.localStorage.getItem(CTF_STORAGE_KEY);
+      setSolved(parseSolvedChallenges(raw, challengeIds));
     } catch {
       // ignore
     }
@@ -48,18 +48,21 @@ export function FlagHunt() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(solved));
+      window.localStorage.setItem(CTF_STORAGE_KEY, JSON.stringify(solved));
+      announceSolvedChallenges(solved);
     } catch {
       // ignore
     }
   }, [solved, hydrated]);
 
-  const challenges = portfolio.ctf.challenges;
-
   const handleSubmit = async (id: string, expectedHash: string) => {
     const value = inputs[id] ?? "";
     const normalized = normalize(value);
-    if (!normalized) return;
+    if (!normalized) {
+      setFeedback((prev) => ({ ...prev, [id]: "Enter a flag before submitting." }));
+      return;
+    }
+    setFeedback((prev) => ({ ...prev, [id]: "" }));
     setPending((prev) => ({ ...prev, [id]: true }));
     let ok = false;
     try {
@@ -71,6 +74,12 @@ export function FlagHunt() {
     setPending((prev) => ({ ...prev, [id]: false }));
     if (ok) {
       setSolved((prev) => (prev.includes(id) ? prev : [...prev, id]));
+      setFeedback((prev) => ({ ...prev, [id]: "Flag accepted." }));
+    } else {
+      setFeedback((prev) => ({
+        ...prev,
+        [id]: "Flag not accepted. Recheck the clue and try again."
+      }));
     }
   };
 
@@ -81,23 +90,18 @@ export function FlagHunt() {
   // Console ROT13 hint — flag 3.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const encoded = "ynxv-onfvyvfx";
-    const decoded = encoded.replace(/[a-zA-Z]/g, (ch) =>
-      ch.charCodeAt(0) <= 90
-        ? String.fromCharCode(((ch.charCodeAt(0) - 65 + 13) % 26) + 65)
-        : String.fromCharCode(((ch.charCodeAt(0) - 97 + 13) % 26) + 97)
-    );
+    const encoded = "xnyv-onfvyvfx";
     // eslint-disable-next-line no-console
     console.log(
-      `%c[basilisk-broadcast] %c${encoded} → %c${decoded}`,
+      `%c[basilisk-broadcast] %c${encoded} %c· decode with ROT13`,
       "color:#4ade80",
       "color:#f5b041",
-      "color:#4ade80;font-weight:bold"
+      "color:#a1a1aa"
     );
   }, []);
 
   return (
-    <div className="space-y-5">
+    <div className="onfvyvfx-ploer space-y-5">
       <Reveal>
         <div className="flex flex-wrap items-center justify-between gap-3 border border-line bg-surface-soft px-5 py-3 font-mono text-xs uppercase tracking-[0.22em]">
           <span className="text-zinc-400">
@@ -158,9 +162,10 @@ export function FlagHunt() {
                     id={inputId}
                     type="text"
                     value={inputs[challenge.id] ?? ""}
-                    onChange={(e) =>
-                      setInputs((prev) => ({ ...prev, [challenge.id]: e.target.value }))
-                    }
+                    onChange={(e) => {
+                      setInputs((prev) => ({ ...prev, [challenge.id]: e.target.value }));
+                      setFeedback((prev) => ({ ...prev, [challenge.id]: "" }));
+                    }}
                     placeholder="enter flag"
                     autoComplete="off"
                     spellCheck={false}
@@ -176,11 +181,14 @@ export function FlagHunt() {
                     {pending[challenge.id] ? "checking…" : isSolved ? "solved" : "submit"}
                   </button>
                 </form>
-                {isSolved && (
-                  <p className="mt-3 font-mono text-xs text-mint">
-                    ✓ {challenge.id} accepted
-                  </p>
-                )}
+                <p
+                  className={`mt-3 min-h-4 font-mono text-xs ${
+                    isSolved ? "text-mint" : "text-ember"
+                  }`}
+                  aria-live="polite"
+                >
+                  {isSolved ? `✓ ${challenge.id} accepted` : feedback[challenge.id]}
+                </p>
               </div>
             </Reveal>
           );
