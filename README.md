@@ -1,14 +1,14 @@
 # Mohammad Sakawat Kabir — Portfolio
 
 Portfolio website for Mohammad Sakawat Kabir, a security-focused backend and
-systems developer, competitive programmer, and Computer Science undergraduate at
-CUET.
+systems developer, competitive programmer, and CSE undergraduate with hands-on
+experience in penetration testing, DevOps, networking, and cloud infrastructure.
 
 [View the live portfolio](https://basilisk13.sakawatkabir.me)
 
 ## Features
 
-- Selected security, backend, data-engineering, and infrastructure projects
+- Selected security, backend, DevOps, data-engineering, and infrastructure projects
 - Technical skills, certifications, achievements, and milestone timeline
 - TryHackMe, Hack The Box, Codeforces, and live GitHub activity
 - Interactive client-side security and cryptography tools

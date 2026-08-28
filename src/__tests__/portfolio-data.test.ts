@@ -19,7 +19,7 @@ describe("portfolio content", () => {
       "Penetration Testing Labs",
       "Secure Backend Systems",
       "Networking",
-      "Linux & Cloud Infrastructure",
+      "DevOps, Linux & Cloud Infrastructure",
       "Competitive Programming"
     ]);
     expect(portfolio.motoTags).not.toContain("Threat Intel Tinkerer");
@@ -38,7 +38,7 @@ describe("portfolio content", () => {
       "Languages",
       "Backend & Data Engineering",
       "Security & Networking",
-      "Systems & Infrastructure"
+      "DevOps, Systems & Infrastructure"
     ]);
     expect(portfolio.technicalSkills.flatMap((group) => group.items)).toEqual(
       expect.arrayContaining([
@@ -50,8 +50,15 @@ describe("portfolio content", () => {
         "Data Validation",
         "Scapy",
         "Linux",
-        "AWS EC2"
+        "AWS EC2",
+        "GitHub Actions",
+        "CI/CD"
       ])
+    );
+
+    const cinemaSeat = portfolio.projects.find((project) => project.slug === "cinemaseat");
+    expect(cinemaSeat?.stack).toEqual(
+      expect.arrayContaining(["GitHub Actions", "CI/CD"])
     );
     expect(portfolio.competitiveProgramming.solvedProblems).toBe("500+");
     expect(portfolio.competitiveProgramming.codeforcesUsername).toBe("s_kbr13");

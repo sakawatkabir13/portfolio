@@ -9,7 +9,7 @@ import { portfolio } from "@/data/portfolio";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Security, backend, infrastructure, automation, and community projects built by Mohammad Sakawat Kabir."
+    "Security, backend, DevOps, infrastructure, automation, and community projects built by Mohammad Sakawat Kabir."
 };
 
 const PROJECT_NAV_ITEMS = [
@@ -30,9 +30,9 @@ export default function ProjectsPage() {
             <p className="font-mono text-xs uppercase tracking-[0.32em] text-ember">Project archive</p>
             <h1 className="mt-3 text-4xl font-bold text-ink sm:text-5xl">Public projects</h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-300">
-              Security labs, production-minded backends, self-hosted infrastructure,
-              automation, and community platforms—documented through their purpose,
-              implementation, and outcomes.
+              Security labs, production-minded backends, DevOps workflows, self-hosted
+              infrastructure, automation, and community platforms—documented through
+              their purpose, implementation, and outcomes.
             </p>
           </div>
 

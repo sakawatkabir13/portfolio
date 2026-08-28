@@ -219,7 +219,7 @@ export default async function Home() {
         <TechnicalSkills />
       </Section>
 
-      <Section id="projects" eyebrow="Selected Work" title="Security, backend, and systems in practice">
+      <Section id="projects" eyebrow="Selected Work" title="Secure systems, backend engineering, and infrastructure in practice">
         <div className="grid gap-5 lg:grid-cols-2">
           {featuredProjects.map((project, index) => (
             <Reveal key={project.slug} delay={Math.min(index * 0.04, 0.18)}>
@@ -304,8 +304,9 @@ export default async function Home() {
             <Terminal className="mx-auto h-9 w-9 text-rose" />
             <h2 className="mt-5 text-3xl font-bold text-ink">Let&apos;s connect</h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-zinc-300">
-              Open to cybersecurity and backend internships, collaborative builds, and
-              conversations about securing systems in practice.
+              Open to security, backend, DevOps, and infrastructure internships,
+              collaborative projects, and conversations about building and securing
+              reliable systems.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <ExternalLinkButton href={portfolio.links.email} variant="primary">

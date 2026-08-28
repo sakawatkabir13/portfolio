@@ -49,7 +49,7 @@ export default function OpenGraph() {
             Security-Focused Backend & Systems Developer
           </div>
           <div style={{ fontSize: 26, color: "#a1a1aa", maxWidth: 1000 }}>
-            CSE Student · Competitive Programmer · Security · Backend · Systems
+            CSE Student · Security · Backend · Systems · DevOps
           </div>
         </div>
         <div

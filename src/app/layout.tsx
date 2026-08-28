@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s · Mohammad Sakawat Kabir"
   },
   description:
-    "Security-focused backend and systems developer, competitive programmer, and CSE undergraduate with hands-on experience in penetration testing, networking, backend engineering, and AWS infrastructure.",
+    "Security-focused backend and systems developer and CSE undergraduate with hands-on experience in penetration testing, DevOps, networking, Linux, Docker, AWS infrastructure, and competitive programming.",
   applicationName: "Basilisk13 Portfolio",
   authors: [{ name: "Mohammad Sakawat Kabir" }],
   keywords: [
@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     "Penetration Tester",
     "Backend Developer",
     "Systems Developer",
+    "DevOps",
+    "Docker",
+    "Cloud Infrastructure",
     "Cybersecurity",
     "Networking",
     "AWS",
@@ -35,13 +38,13 @@ export const metadata: Metadata = {
     siteName: "Basilisk13 Portfolio",
     title: "Mohammad Sakawat Kabir | Portfolio",
     description:
-      "Security-focused backend and systems developer, competitive programmer, and CSE undergraduate with hands-on experience in penetration testing, networking, backend engineering, and AWS infrastructure."
+      "Security-focused backend and systems developer and CSE undergraduate with hands-on experience in penetration testing, DevOps, networking, Linux, Docker, AWS infrastructure, and competitive programming."
   },
   twitter: {
     card: "summary_large_image",
     title: "Mohammad Sakawat Kabir | Portfolio",
     description:
-      "Security-focused backend and systems developer, competitive programmer, and CSE undergraduate with hands-on experience in penetration testing, networking, backend engineering, and AWS infrastructure."
+      "Security-focused backend and systems developer and CSE undergraduate with hands-on experience in penetration testing, DevOps, networking, Linux, Docker, AWS infrastructure, and competitive programming."
   },
   robots: {
     index: true,
@@ -70,6 +73,9 @@ export default function RootLayout({
       "Cybersecurity",
       "Penetration Testing",
       "Networking",
+      "DevOps",
+      "Containerization",
+      "Cloud Infrastructure",
       "Linux",
       "Python",
       "Competitive Programming"

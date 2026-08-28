@@ -30,8 +30,8 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-400">
               Portfolio of {portfolio.name}, a security-focused backend and systems
-              developer. Showcasing projects, technical writing, and hands-on security
-              work.
+              developer with hands-on DevOps and infrastructure experience. Showcasing
+              projects, technical writing, and practical security work.
             </p>
             <p className="mt-3 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-ember">
               <Sparkles className="h-3.5 w-3.5" />

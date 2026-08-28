@@ -19,7 +19,7 @@ export const portfolio = {
   avatarUrl: "https://avatars.githubusercontent.com/u/146334703?v=4",
   title: "Security-Focused Backend & Systems Developer",
   tagline:
-    "Computer Science undergraduate building secure, real-world systems, with hands-on experience in penetration testing, networking, threat detection, backend engineering, and self-hosted AWS infrastructure.",
+    "Computer Science undergraduate building, deploying, and securing real-world systems across backend engineering, penetration testing, networking, DevOps, and self-hosted AWS infrastructure.",
   location: "Bangladesh",
   links: {
     github: "https://github.com/sakawatkabir13",
@@ -31,7 +31,7 @@ export const portfolio = {
     resume: "/resume.pdf"
   },
   about:
-    "I build dependable backend and infrastructure systems, then test and harden them through hands-on security work.",
+    "I build, deploy, and operate dependable backend and infrastructure systems, then test and harden them through hands-on security work.",
   education: {
     status: "Third-year B.Sc. student in Computer Science and Engineering",
     studentStatus: "Third-year CSE student",
@@ -108,7 +108,7 @@ export const portfolio = {
     "Penetration Testing Labs",
     "Secure Backend Systems",
     "Networking",
-    "Linux & Cloud Infrastructure",
+    "DevOps, Linux & Cloud Infrastructure",
     "Competitive Programming"
   ],
   technicalSkills: [
@@ -143,8 +143,17 @@ export const portfolio = {
       ]
     },
     {
-      label: "Systems & Infrastructure",
-      items: ["Linux", "Docker", "AWS EC2", "Git", "Nginx Proxy Manager", "Twingate"]
+      label: "DevOps, Systems & Infrastructure",
+      items: [
+        "Linux",
+        "Docker",
+        "AWS EC2",
+        "Git",
+        "GitHub Actions",
+        "CI/CD",
+        "Nginx Proxy Manager",
+        "Twingate"
+      ]
     }
   ],
   achievements: [
@@ -384,15 +393,16 @@ export const portfolio = {
       slug: "cinemaseat",
       title: "CinemaSeat",
       description:
-        "A concurrency-safe movie-ticket booking platform built around one invariant: a seat is never sold twice, even under competing requests.",
-      stack: ["TypeScript", "PostgreSQL", "Redis", "Concurrency"],
+        "A concurrency-safe movie-ticket booking platform with GitHub Actions CI/CD, built around one invariant: a seat is never sold twice, even under competing requests.",
+      stack: ["TypeScript", "PostgreSQL", "Redis", "Concurrency", "GitHub Actions", "CI/CD"],
       href: "https://github.com/sakawatkabir13/CinemaSeat",
       category: "Awarded Hackathon Project",
       featured: true,
       problem: "Concurrent booking requests can sell the same seat twice.",
       build:
-        "Combined Redis atomic holds (SET NX EX) with PostgreSQL unique constraints so double-booking is structurally prevented.",
-      evidence: "1st Runner-Up · Zero to Production Hackathon 2026.",
+        "Combined Redis atomic holds (SET NX EX) with PostgreSQL unique constraints so double-booking is structurally prevented, then automated validation and delivery through GitHub Actions CI/CD.",
+      evidence:
+        "1st Runner-Up · Zero to Production Hackathon 2026 · Automated CI/CD with GitHub Actions.",
       stars: 0
     },
     {
