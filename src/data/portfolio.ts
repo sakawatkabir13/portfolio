@@ -139,7 +139,9 @@ export const portfolio = {
         "Network Traffic Analysis",
         "Threat Detection",
         "Scapy",
-        "eBPF/BCC"
+        "eBPF/BCC",
+        "DNS",
+        "TCP/IP"
       ]
     },
     {

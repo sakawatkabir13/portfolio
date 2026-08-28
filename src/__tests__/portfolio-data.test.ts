@@ -49,6 +49,8 @@ describe("portfolio content", () => {
         "Data Cleaning",
         "Data Validation",
         "Scapy",
+        "DNS",
+        "TCP/IP",
         "Linux",
         "AWS EC2",
         "GitHub Actions",
