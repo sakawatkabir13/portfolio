@@ -133,7 +133,7 @@ export default async function Home() {
               <Sparkles className="h-4 w-4" />
               {portfolio.liveStatus.line2}
             </div>
-            <h1 className="hero-name mt-5 max-w-4xl text-5xl font-black leading-[1.02] tracking-normal text-ink sm:text-6xl lg:whitespace-nowrap lg:text-[clamp(2.625rem,4.4vw,3.5rem)] lg:leading-none">
+            <h1 className="hero-name mt-5 max-w-4xl text-5xl font-black leading-[1.02] tracking-normal text-ink sm:text-6xl lg:whitespace-nowrap lg:text-[clamp(2.5rem,4vw,3.375rem)] lg:leading-none">
               {portfolio.name}
             </h1>
             <p className="hero-title mt-4 max-w-3xl text-lg font-semibold text-rose sm:text-xl">
