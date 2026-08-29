@@ -15,8 +15,13 @@ const config: Config = {
         ink: "#f7f3ea"
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"]
+        sans: ["var(--font-noto-sans)", "Noto Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: [
+          "var(--font-dejavu-sans-mono)",
+          "DejaVu Sans Mono",
+          "ui-monospace",
+          "monospace"
+        ]
       },
       boxShadow: {
         rose: "0 16px 60px rgba(255, 77, 125, 0.16)",

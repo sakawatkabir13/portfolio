@@ -40,4 +40,18 @@ describe("visual direction", () => {
     expect(background).toContain('data-background-effect="network"');
     expect(background).not.toContain("scanline");
   });
+
+  it("self-hosts the Ubuntu typography and compacts short desktop viewports", () => {
+    const layout = read("src/app/layout.tsx");
+    const theme = read("tailwind.config.ts");
+    const styles = read("src/app/globals.css");
+
+    expect(layout).toContain('from "next/font/local"');
+    expect(layout).toContain("noto-sans-400.woff2");
+    expect(layout).toContain("dejavu-sans-mono-400.woff2");
+    expect(theme).toContain("var(--font-noto-sans)");
+    expect(theme).toContain("var(--font-dejavu-sans-mono)");
+    expect(styles).toContain("@media (min-width: 1024px) and (max-height: 850px)");
+    expect(styles).toContain("#top.hero-shell");
+  });
 });

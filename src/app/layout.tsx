@@ -1,8 +1,27 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { BackgroundEffects } from "@/components/background/BackgroundEffects";
 
 const SITE_URL = "https://basilisk13.sakawatkabir.me";
+
+const notoSans = localFont({
+  src: [
+    { path: "./fonts/noto-sans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/noto-sans-700.woff2", weight: "700", style: "normal" }
+  ],
+  variable: "--font-noto-sans",
+  display: "swap"
+});
+
+const dejaVuSansMono = localFont({
+  src: [
+    { path: "./fonts/dejavu-sans-mono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/dejavu-sans-mono-700.woff2", weight: "700", style: "normal" }
+  ],
+  variable: "--font-dejavu-sans-mono",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -89,8 +108,8 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${notoSans.variable} ${dejaVuSansMono.variable}`}>
+      <body className="font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
