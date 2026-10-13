@@ -40,3 +40,6 @@ work/
 # local-only internal documentation
 LOCAL_PORTFOLIO_GUIDE.md
 docs/superpowers/
+
+# Docker
+.dockerignore
