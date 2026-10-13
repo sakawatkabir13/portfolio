@@ -32,6 +32,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           fingerprint: ${{ secrets.SERVER_HOST_FINGERPRINT }}
+          protocol: tcp4
           command_timeout: 15m
           script: |
             set -eu
